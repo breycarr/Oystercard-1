@@ -39,10 +39,48 @@ irb: card.top_up(10)
 
 Errors - IRB
 ```
-NoMethodError (undefined method `top_up' for #<Oystercard:0x00007fcda7999978 @balance=0>) -- define top up method
-RSPEC - NoMethodError:
-       undefined method `top_up' for #<Oystercard:0x00007fd721163168 @balance=0>
-     # ./spec/oystercard_spec.rb:12
+NoMethodError:
+       undefined method `top_up' for #<Oystercard:0x00007fb1849ddf40 @balance=0>
+     # ./spec/oystercard_spec.rb:11
 ```
 ---
 
+```
+In order to protect my money from theft or loss
+As a customer
+I want a maximum limit (of £90) on my card
+```
+
+Objects | Messages
+-|-
+card  |  has maximum limit
+customer  |
+
+```
+irb: card = Oystercard.new
+irb: card.top_up(100)
+```
+
+Error - RSPEC
+```
+Failure/Error: expect { subject.top_up(100) }.to raise_error("Exceeded maximum balance!")
+       expected Exception with "Exceeded maximum balance!" but nothing was raised
+     # ./spec/oystercard_spec.rb:16
+```
+
+IRB Feature Test:
+
+```
+2.6.0 :001 > require './lib/oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fd21e89e408 @balance=0>
+2.6.0 :003 > card.top_up(100)
+Traceback (most recent call last):
+        5: from /Users/student/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        4: from /Users/student/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        3: from /Users/student/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        2: from (irb):3
+        1: from /Users/student/Projects/oystercard/lib/oystercard.rb:12:in `top_up'
+RuntimeError (Exceeded maximum balance!)
+```
