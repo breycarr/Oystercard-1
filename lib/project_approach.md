@@ -235,3 +235,52 @@ IRB feature test:
 2.6.0 :006 > card.touch_out
  => false
  ```
+
+ ---
+
+```
+In order to pay for my journey
+As a customer
+I need to have the minimum amount (£1) for a single journey.
+```
+Objects | Methods
+-|-
+card | minimum_amount
+
+
+Rspec Errors:
+```
+Failure/Error: expect { subject.touch_in }.to raise_error("Insufficient funds!")
+       expected Exception with "Insufficient funds!" but nothing was raised
+     # ./spec/oystercard_spec.rb:33
+```
+```
+Failure/Error: raise "Insufficient funds!" if @balance < 1
+
+     RuntimeError:
+       Insufficient funds!
+     # ./lib/oystercard.rb:22
+```
+
+IRB Feature Test:
+
+```
+2.6.0 :00require './lib/oystercard.rb'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fa7f3977848 @balance=0, @in_journey=false>
+2.6.0 :003 > card.touch_in
+Traceback (most recent call last):
+        5: from /Users/kiri/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        4: from /Users/kiri/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        3: from /Users/kiri/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        2: from (irb):3
+        1: from /Users/kiri/Documents/GitHub/Oystercard/lib/oystercard.rb:22:in `touch_in'
+RuntimeError (Insufficient funds!)
+2.6.0 :004 > card.top_up(4)
+ => 4
+2.6.0 :005 > card.touch_in
+ => true
+```
+---
+

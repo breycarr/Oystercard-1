@@ -24,11 +24,19 @@ describe Oystercard do
     expect(subject.in_journey).to eq(false)
   end
 
-  it 'should start a journey with #touch_in' do
-    expect{ subject.touch_in }.to change{ subject.in_journey}.to eq(true)
+  describe '#touch_in' do
+
+    it 'should start a journey with #touch_in' do
+      subject.top_up(4)
+      expect{ subject.touch_in }.to change{ subject.in_journey}.to eq(true)
+    end
+    it 'should raise an error if there is not enough money in the account' do 
+      expect { subject.touch_in }.to raise_error("Insufficient funds!")
+    end
   end
 
   it 'should end a journey with #touch_out' do
+    subject.top_up(3)
     subject.touch_in
     expect{ subject.touch_out }.to change{ subject.in_journey}.to eq(false)
   end
