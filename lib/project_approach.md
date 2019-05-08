@@ -318,18 +318,45 @@ Failure/Error: expect{ topped_up_card.touch_out }.to change{ topped_up_card.bala
 ```
 IRB Feature Test:
 ```
-2.6.0 :001 > require './lib/oystercard.rb'
- => true
-2.6.0 :002 > card = Oystercard.new
- => #<Oystercard:0x00007fabb79703a0 @balance=0, @in_journey=false>
-2.6.0 :003 > card.top_up(10)
- => 10
-2.6.0 :004 > card.balance
- => 10
-2.6.0 :005 > card.touch_in
- => true
-2.6.0 :006 > card.touch_out
- => 7
-2.6.0 :007 > card.balance
- => 7
+raceback (most recent call last):
+        6: from /Users/kiri/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        5: from /Users/kiri/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        4: from /Users/kiri/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        3: from (irb):2
+        2: from /Users/kiri/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/rubygems/core_ext/kernel_require.rb:54:in `require'
+        1: from /Users/kiri/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/rubygems/core_ext/kernel_require.rb:54:in `require'
+LoadError (cannot load such file -- ./lib/station.rb)
 ```
+
+Rspec Errors:
+```
+Failure/Error:
+  describe Station do
+
+  end
+
+NameError:
+  uninitialized constant Station
+# ./spec/station_spec.rb:1
+```
+
+```
+Failure/Error: expect{ topped_up_card.touch_in }.to change{ topped_up_card.start_station }.to eq start_station
+
+     NoMethodError:
+       undefined method `start_station' for #<Oystercard:0x00007f974faa2970 @balance=10, @in_journey=false>
+     # ./spec/oystercard_spec.rb:40
+```
+
+```
+Failure/Error: expect{ topped_up_card.touch_in(start_station) }.to change{ topped_up_card.start_station }.to eq start_station
+       expected `topped_up_card.start_station` to have changed to eq #<Station:0x00007ffc0c97e720>, but did not change
+     # ./spec/oystercard_spec.rb:40
+```
+
+```
+Failure/Error: expect{ topped_up_card.touch_out }.to change{ topped_up_card.start_station }.to eq nil
+       expected `topped_up_card.start_station` to have changed to eq nil, but did not change
+     # ./spec/oystercard_spec.rb:58
+```
+
