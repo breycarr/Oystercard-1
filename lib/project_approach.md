@@ -114,7 +114,7 @@ Objects | Messages
 -|-
 card | deduct(value)
 
-IRB Error: 
+IRB Error:
 ```
 NoMethodError (undefined method `deduct' for #<Oystercard:0x00007ffb2a8de5c8 @balance=10>)
 ```
@@ -128,6 +128,110 @@ Failure/Error: subject.deduct(5)
 ```
 
 IRB Feature Test:
+```
+2.6.0 :001 > require './lib/oystercard.rb'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fb5fd8351e8 @balance=0>
+2.6.0 :003 > card.top_up(10)
+ => 10
+2.6.0 :004 > card.deduct(5)
+ => 5
+2.6.0 :005 > card.balance
+ => 5
+ ```
 
+---
 
+```
+In order to get through the barriers.
+As a customer
+I need to touch in and out.
+```
 
+Objects | Messages
+-|-
+card | touch_in
+card | touch_out
+card | in_journey?
+
+IRB Errors:
+```
+NoMethodError (undefined method `in_journey?' for #<Oystercard:0x00007ff0ab2eb118 @balance=0>)
+```
+```
+NoMethodError (undefined method `touch_in' for #<Oystercard:0x00007ff0ab2eb118 @balance=0>)
+```
+```
+NoMethodError (undefined method `touch_out' for #<Oystercard:0x00007ff0ab2eb118 @balance=0>)
+```
+
+Rspec Errors - in_journey?:
+```
+Failure/Error: expect(subject.in_journey?).to eq(false)
+
+     NoMethodError:
+       undefined method `in_journey?' for #<Oystercard:0x00007fadf3a43578 @balance=0>
+     # ./spec/oystercard_spec.rb:24
+```
+```
+Failure/Error: expect(subject.in_journey?).to eq(false)
+
+       expected: false
+            got: nil
+
+       (compared using ==)
+     # ./spec/oystercard_spec.rb:24
+```
+
+Rspec Errors - touch_in:
+```
+Failure/Error: subject.touch_in
+
+     NoMethodError:
+       undefined method `touch_in' for #<Oystercard:0x00007f97e3252ad8 @balance=0>
+     # ./spec/oystercard_spec.rb:28
+```
+```
+Failure/Error: expect(subject.in_journey?).to eq(true)
+
+       expected: true
+            got: false
+
+       (compared using ==)
+     # ./spec/oystercard_spec.rb:29
+```
+Rspec Errors - touch_out:
+```
+Failure/Error: subject.touch_out
+
+     NoMethodError:
+       undefined method `touch_out' for #<Oystercard:0x00007fbf72268de0 @balance=0, @in_journey=true>
+       Did you mean?  touch_in
+     # ./spec/oystercard_spec.rb:34
+```
+```
+Failure/Error: expect(subject.in_journey).to eq(false)
+
+       expected: false
+            got: true
+
+       (compared using ==)
+     # ./spec/oystercard_spec.rb:35
+```
+
+IRB feature test:
+```
+2.6.0 :001 > require './lib/oystercard.rb'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fd6b40fec08 @balance=0, @in_journey=false>
+2.6.0 :003 > card.in_journey
+ => false
+2.6.0 :004 > card.touch_in
+ => true
+2.6.0 :005 > card.in_journey
+ => true
+2.6.0 :006 > card.touch_out
+ => false
+ ```
