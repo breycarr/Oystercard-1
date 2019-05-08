@@ -1,8 +1,9 @@
 class Oystercard
-  attr_reader :balance, :MAXIMUM_LIMIT, :in_journey, :MINIMUM_LIMIT
+  attr_reader :balance, :in_journey
 
   MAXIMUM_LIMIT = 90
   MINIMUM_LIMIT = 1
+  FARE = 3
 
    def initialize
     @balance = 0
@@ -15,10 +16,6 @@ class Oystercard
     @balance += amount
   end
 
-  def deduct(fare)
-    @balance -= fare
-  end
-
   def touch_in
     raise "Insufficient funds!" if insufficient_funds
 
@@ -27,6 +24,7 @@ class Oystercard
 
   def touch_out
     @in_journey = false
+    deduct(FARE)
   end
 
 private
@@ -34,9 +32,13 @@ private
   def limit_exceeded?(amount)
     @balance + amount > MAXIMUM_LIMIT
   end
-  
+
   def insufficient_funds
     @balance < MINIMUM_LIMIT
+  end
+
+  def deduct(fare)
+    @balance -= fare
   end
 
 end

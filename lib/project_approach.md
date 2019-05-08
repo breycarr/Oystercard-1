@@ -284,3 +284,52 @@ RuntimeError (Insufficient funds!)
 ```
 ---
 
+```
+In order to pay for my journey
+As a customer
+When my journey is complete, I need the correct amount deducted from my card
+```
+
+Object | Message
+-|-
+card | deduct
+correct amount | deduct
+
+IRB error - card balance should change after touch in and touch out called:
+```
+2.6.0 :001 > require './lib/oystercard.rb'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007f872993eab0 @balance=0, @in_journey=false>
+2.6.0 :003 > card.top_up(10)
+ => 10
+2.6.0 :004 > card.touch_in
+ => true
+2.6.0 :005 > card.touch_out
+ => false
+2.6.0 :006 > card.balance
+ => 10
+```
+Rspec Error:
+```
+Failure/Error: expect{ topped_up_card.touch_out }.to change{ topped_up_card.balance }.by -3
+       expected `topped_up_card.balance` to have changed by -3, but was changed by 0
+     # ./spec/oystercard_spec.rb:47
+```
+IRB Feature Test:
+```
+2.6.0 :001 > require './lib/oystercard.rb'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fabb79703a0 @balance=0, @in_journey=false>
+2.6.0 :003 > card.top_up(10)
+ => 10
+2.6.0 :004 > card.balance
+ => 10
+2.6.0 :005 > card.touch_in
+ => true
+2.6.0 :006 > card.touch_out
+ => 7
+2.6.0 :007 > card.balance
+ => 7
+```
