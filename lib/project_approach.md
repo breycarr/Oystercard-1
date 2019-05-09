@@ -359,4 +359,22 @@ Failure/Error: expect{ topped_up_card.touch_out }.to change{ topped_up_card.star
        expected `topped_up_card.start_station` to have changed to eq nil, but did not change
      # ./spec/oystercard_spec.rb:58
 ```
+---
+```
+In order to know where I have been
+As a customer
+I want to see all my previous trips
+```
 
+Objects | Messages
+-|-
+Card | journey_history
+
+IRB tests
+```
+irb
+require './lib/oystercard.rb'
+card = Oystercard.new
+card.touch_in("station")
+card.touch_out("station")
+card.history
