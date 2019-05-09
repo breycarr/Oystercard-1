@@ -47,20 +47,19 @@ describe Oystercard do
       topped_up_card.touch_in(start_station)
       expect{ topped_up_card.touch_out(end_station) }.to change{ topped_up_card.balance }.by -Oystercard::FARE
     end
-
   end
 
-  describe "#journey_history" do
+  describe "#last_journey" do
     let(:journey) { { start_station: start_station, end_station: end_station } }
 
     it "should generate an empty list of journeys by default" do
-      expect(subject.journeys).to be_empty
+      expect(subject.journey).to be_empty
     end
-    it "should return the history of a journey" do
-      expect(complete_journey_card.journey_history).to eq("Journey 1: #{start_station} to #{end_station}")
+    it "should return the history of one journey" do
+      expect(complete_journey_card.last_journey).to eq("#{start_station} to #{end_station}")
     end
     it "stores a journey" do
-      expect(complete_journey_card.journeys).to include journey
+      expect(complete_journey_card.journey).to include journey
     end
   end
 end
