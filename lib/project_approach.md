@@ -375,6 +375,27 @@ IRB tests
 irb
 require './lib/oystercard.rb'
 card = Oystercard.new
-card.touch_in("station")
-card.touch_out("station")
-card.history
+card.top_up(5)
+card.touch_in("Angel")
+card.touch_out("Aldgate")
+card.journey_history
+```
+---
+
+```
+In order to know how far I have travelled
+As a customer
+I want to know what zone a station is in
+```
+
+Objects | Messages
+-|-
+Station | zone?
+
+IRB tests
+```
+require './lib/oystercard.rb'
+stations = Station.new('Angel', 2)
+station.name
+station.zone?
+```
